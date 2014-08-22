@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         WME Permalink to maps /CZ/
-// @description Skript umoznujici kontrolu z WME v dalsich mapach.
-// @namespace	https://greasyfork.org/scripts/4422-wme-permalink-to-maps-cz
-// @version     0.3
+// @name         WME Permalink to maps czech
+// @description Skript umoznujici kontrolu WME v dalsich mapach.
+// @namespace	https://greasyfork.org/users/4640-petr-nedv%C4%9Bd
+// @version     0.4
 // @include     https://*.waze.com/editor/*
 // @include     https://*.waze.com/*/editor/*
 // @include     https://editor-beta.waze.com/*editor/*
@@ -48,7 +48,19 @@ function getQueryString(link, name)
     return link.substr(pos,len);
 }
 
-var btn0 = $('<button style="background-color:#BEDCE5;border:2;border-color:#000000"><b>LIVE</b></button>');
+jQuery(function($){
+    var _highest = 0;   
+
+    $("div").each(function() {
+        var _current = parseInt($(this).css("zIndex"), 10);
+        if(_current > _highest) {
+            _highest = _current + 1;
+        }
+    });
+    $('body').append('<div id="fpanel" style="position:absolute;top:80px;z-index:'+_highest+';left:800px;background:transparent;border:0px solid #333;border-radius:5px;height:35px;width:350px;"></div>');
+});
+
+var btn0 = $('<button style="background-color:#BEDCE5;border:1;border-color:#5B8BA0" class="btn btn-default"><b>LIVE</b></button>');
 btn0.click(function(){
     var href = $('.WazeControlPermalink a').attr('href');
 
@@ -62,7 +74,7 @@ btn0.click(function(){
     window.open(mapsUrl,'_blank')
 });
 
-var btn1 = $('<button style="background-color:#BEDCE5;border:2;border-color:#000000"><b>Google</b></button>');
+var btn1 = $('<button style="background-color:#BEDCE5;border:1;border-color:#5B8BA0" class="btn btn-default"><b>Google</b></button>');
 btn1.click(function(){
     var href = $('.WazeControlPermalink a').attr('href');
 
@@ -75,7 +87,7 @@ btn1.click(function(){
     window.open(mapsUrl,'_blank')
 });
 
-var btn2 = $('<button style="background-color:#BEDCE5;border:2;border-color:#000000"><b>Mapy.cz</b></button>');
+var btn2 = $('<button style="background-color:#BEDCE5;border:1;border-color:#5B8BA0" class="btn btn-default"><b>Mapy.cz</b></button>');
 btn2.click(function(){
     var href = $('.WazeControlPermalink a').attr('href');
 
@@ -88,7 +100,7 @@ btn2.click(function(){
     window.open(mapsUrl,'_blank')
 });
 
-var btn3 = $('<button style="background-color:#BEDCE5;border:2;border-color:#000000"><b>OSM</b></button>');
+var btn3 = $('<button style="background-color:#BEDCE5;border:1;border-color:#5B8BA0" class="btn btn-default"><b>OSM</b></button>');
 btn3.click(function(){
     var href = $('.WazeControlPermalink a').attr('href');
 
@@ -101,8 +113,7 @@ btn3.click(function(){
     window.open(mapsUrl,'_blank')
 });
 
-$("#sidebar").append(btn0);
-$("#sidebar").append(btn1);
-$("#sidebar").append(btn2);
-$("#sidebar").append(btn3);
-// $("#sidebar").append('<br><a href="http://userscripts.org:8080/scripts/show/175262" target="_blank">Permalink to several maps (original)</a>');
+$("#fpanel").append(btn0);
+$("#fpanel").append(btn1);
+$("#fpanel").append(btn2);
+$("#fpanel").append(btn3);
